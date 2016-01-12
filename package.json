@@ -1,0 +1,24 @@
+{
+  "name": "realtime",
+  "version": "1.0.0",
+  "description": "Real Time Polling App Using Web Sockets",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bad6e/real_time.git"
+  },
+  "keywords": [
+    "Web",
+    "Sockets"
+  ],
+  "author": "Bret Doucette",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bad6e/real_time/issues"
+  },
+  "homepage": "https://github.com/bad6e/real_time#readme"
+}
