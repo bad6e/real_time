@@ -34,7 +34,7 @@ $('.generate-poll').on('click', function (e) {
 //Append the Poll and Admin Links to the Page #2
 socket.on('generate poll', function(message) {
   $('.generated-poll').append(`<li>Poll Link: localhost:3000/polls/${message}</li>
-                               <li>Admin Link: STILL NEED TO BE DONE</li>`);
+                               <li>Admin Link: localhost:3000/polls/admin/${message}`);
 });
 
 

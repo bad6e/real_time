@@ -41,6 +41,23 @@ app.get('/polls/:id', function(req , res){
   }
 });
 
+app.get('/polls/admin/:id', function(req , res){
+  console.log(req.params.id)
+  var id = req.params.id
+
+  var foundId = _.find(Object.keys(polls) , function(d) {
+    return d === req.params.id
+  });
+
+  if (!foundId) {
+    console.log('bad id');
+    res.status(404).end();
+  } else {
+    var data = pollData(id);
+    res.send(data);
+  }
+});
+
 function pollData (id) {
   return polls[id]
 }
