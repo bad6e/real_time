@@ -1,5 +1,6 @@
 const http = require('http');
 const express = require('express');
+pry = require('pryjs')
 
 const app = express();
 
@@ -21,6 +22,11 @@ const io = socketIo(server);
 
 io.on('connection', function(socket){
   console.log("A user has connected", io.engine.clientsCount)
+
+  socket.on('message', function (channel, message) {
+    console.log(message)
+    io.sockets.emit('poll item', message);
+  });
 
   socket.on('disconnect', function(){
     console.log("A user has disconnected.", io.engine.clientsCount)
