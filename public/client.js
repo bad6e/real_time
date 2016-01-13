@@ -21,8 +21,10 @@ socket.on('poll item', function(message) {
   $('.all-poll-items').append(`Poll Item: ${message.item}<br>`);
 });
 
+//Append the Poll and Admin Links to the Page
 socket.on('generate poll', function(message) {
-  $('.generated-poll').append(`<li>${message}</li>`);
+  $('.generated-poll').append(`<li>Admin Link: www.paceyourself.com</li>
+                               <li>Poll Link: www.imconfused.com</li>`);
 });
 
 //Requesting finish Poll

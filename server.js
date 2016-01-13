@@ -19,7 +19,8 @@ const server = http.createServer(app)
 const socketIo = require('socket.io');
 const io = socketIo(server);
 
-var polls = {}
+var polls = {};
+var activeLinks = {};
 
 io.on('connection', function(socket){
   console.log("A user has connected", io.engine.clientsCount)
@@ -30,15 +31,18 @@ io.on('connection', function(socket){
     } else if(channel === 'generate poll'){
       polls[Math.random()] = message;
       io.sockets.emit('generate poll', polls);
-
     }
-
   });
 
   socket.on('disconnect', function(){
     console.log("A user has disconnected.", io.engine.clientsCount)
     delete polls[socket.id];
   });
+
+  app.get('/polls/:id', function(req , res){
+
+  });
+
 });
 
 
