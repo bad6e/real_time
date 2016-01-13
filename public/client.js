@@ -1,5 +1,7 @@
 var socket = io();
-var pollItems = [];
+var poll = {
+  items: []
+};
 
 //Submitting Poll Items
 $('.submit-poll-item').on('click', function (e) {
@@ -13,7 +15,7 @@ $('.submit-poll-item').on('click', function (e) {
 
 //Saving all Poll Items into an array
 function groupedPollItems(pollItem) {
-  pollItems.push(pollItem);
+  poll['items'].push(pollItem);
 }
 
 //Append the new Poll Item to the screen
@@ -21,18 +23,20 @@ socket.on('poll item', function(message) {
   $('.all-poll-items').append(`Poll Item: ${message.item}<br>`);
 });
 
-//Append the Poll and Admin Links to the Page
-socket.on('generate poll', function(message) {
-  var url = Object.keys(message)
-  //The url key part wil key of the polls sent from the server
-  $('.generated-poll').append(`<li>Poll Link: localhost:3000/polls/${url}</li>
-                               <li>Poll Link: www.imconfused.com</li>`);
-});
 
-//Requesting finish Poll
+//Requesting finish Poll #1 - goes to 'generate poll'
 $('.generate-poll').on('click', function (e) {
   e.preventDefault();
-  socket.send('generate poll', pollItems)
+  socket.send('generate poll', poll)
 });
+
+
+//Append the Poll and Admin Links to the Page #2
+socket.on('generate poll', function(message) {
+  $('.generated-poll').append(`<li>Poll Link: localhost:3000/polls/${message}</li>
+                               <li>Admin Link: STILL NEED TO BE DONE</li>`);
+});
+
+
 
 

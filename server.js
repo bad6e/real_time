@@ -1,6 +1,8 @@
 const http = require('http');
 const express = require('express');
 const app = express();
+const _ = require('lodash');
+
 pry = require('pryjs');
 
 app.use(express.static('public'))
@@ -23,34 +25,38 @@ var polls = {};
 var activeLinks = {};
 
 app.get('/polls/:id', function(req , res){
-
+  // eval(pry.it)
   console.log(req.params.id)
   var id = req.params.id
-  var data = pollData(id);
-  res.send(data);
-  // console.log(polls[id])
-  //store id in local variable
-  // use the id to respond with the poll data
-  // data = polls[id]
-  // send data -->
+
+  var foundId = _.find(Object.keys(polls) , function(d) {
+    return d === req.params.id
+  });
+
+  if (!foundId) {
+    console.log('bad id');
+    res.status(404).end();
+  } else {
+    var data = pollData(id);
+    res.send(data);
+  }
 });
 
 function pollData (id) {
   return polls[id]
 }
 
-
-
 io.on('connection', function(socket){
   console.log("A user has connected", io.engine.clientsCount)
 
   socket.on('message', function (channel, message) {
     if (channel === 'poll item') {
-      io.sockets.emit('poll item', message);
+      socket.emit('poll item', message);
     } else if(channel === 'generate poll'){
-      polls[Math.random().toString(16).slice(2)] = message;
+      var uniqueKey = Math.random().toString(16).slice(2)
+      polls[uniqueKey] = message;
       console.log(polls)
-      io.sockets.emit('generate poll', polls);
+      socket.emit('generate poll', uniqueKey);
     }
   });
 
@@ -61,7 +67,7 @@ io.on('connection', function(socket){
 
 });
 
-
+socket.on('message-' + id, function() {})
 
 
 
