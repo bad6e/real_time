@@ -23,15 +23,23 @@ var polls = {};
 var activeLinks = {};
 
 app.get('/polls/:id', function(req , res){
-//req.params.id
+
+  console.log(req.params.id)
+  var id = req.params.id
+  var data = pollData(id);
+  res.send(data);
+  // console.log(polls[id])
+  //store id in local variable
+  // use the id to respond with the poll data
+  // data = polls[id]
+  // send data -->
 });
 
-var found = validIds.find(function (d) {return d.id === req.params.id;});
-if(found is null) {
-//
-} else {
-//it worked!
+function pollData (id) {
+  return polls[id]
 }
+
+
 
 io.on('connection', function(socket){
   console.log("A user has connected", io.engine.clientsCount)

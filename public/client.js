@@ -23,7 +23,9 @@ socket.on('poll item', function(message) {
 
 //Append the Poll and Admin Links to the Page
 socket.on('generate poll', function(message) {
-  $('.generated-poll').append(`<li>Admin Link: www.paceyourself.com</li>
+  var url = Object.keys(message)
+  //The url key part wil key of the polls sent from the server
+  $('.generated-poll').append(`<li>Poll Link: localhost:3000/polls/${url}</li>
                                <li>Poll Link: www.imconfused.com</li>`);
 });
 
