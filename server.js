@@ -1,7 +1,5 @@
 const http = require('http');
 const express = require('express');
-pry = require('pryjs')
-
 const app = express();
 
 app.use(express.static('public'))
