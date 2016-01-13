@@ -22,6 +22,17 @@ const io = socketIo(server);
 var polls = {};
 var activeLinks = {};
 
+app.get('/polls/:id', function(req , res){
+//req.params.id
+});
+
+var found = validIds.find(function (d) {return d.id === req.params.id;});
+if(found is null) {
+//
+} else {
+//it worked!
+}
+
 io.on('connection', function(socket){
   console.log("A user has connected", io.engine.clientsCount)
 
@@ -29,7 +40,8 @@ io.on('connection', function(socket){
     if (channel === 'poll item') {
       io.sockets.emit('poll item', message);
     } else if(channel === 'generate poll'){
-      polls[Math.random()] = message;
+      polls[Math.random().toString(16).slice(2)] = message;
+      console.log(polls)
       io.sockets.emit('generate poll', polls);
     }
   });
@@ -37,10 +49,6 @@ io.on('connection', function(socket){
   socket.on('disconnect', function(){
     console.log("A user has disconnected.", io.engine.clientsCount)
     delete polls[socket.id];
-  });
-
-  app.get('/polls/:id', function(req , res){
-
   });
 
 });
