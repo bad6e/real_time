@@ -25,7 +25,6 @@ var polls = {};
 var activeLinks = {};
 
 app.get('/polls/:id', function(req , res){
-  // eval(pry.it)
   console.log(req.params.id)
   var id = req.params.id
 
@@ -66,24 +65,5 @@ io.on('connection', function(socket){
   });
 
 });
-
-socket.on('message-' + id, function() {})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = server;
