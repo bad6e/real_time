@@ -2,11 +2,30 @@
 <html>
   <head>
     <title>Real Time Polling</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet'>
   </head>
   <body>
-    <H1>Hello world!</H1>
-    <!-- Make sure your JS is at the bottom of the body! -->
+    <div class="container" id="join-form">
+      <div class="col-md-offset-2 col-md-8">
+        <div class="row well">
+          <h2 align='center' id="login-join-page">Fill the Form to Generate a New Poll</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" id="join-form">
+      <div class="col-md-offset-2 col-md-8">
+        <div class="row well">
+          <input type="text" placeholder="Add Poll Item Here" class="poll-item">
+          <input type="submit" class="submit-message">
+        </div>
+      </div>
+    </div>
+
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="/client.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </body>
 </html>
