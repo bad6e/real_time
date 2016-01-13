@@ -1,6 +1,7 @@
 const http = require('http');
 const express = require('express');
 const app = express();
+pry = require('pryjs');
 
 app.use(express.static('public'))
 
@@ -18,16 +19,25 @@ const server = http.createServer(app)
 const socketIo = require('socket.io');
 const io = socketIo(server);
 
+var polls = {}
+
 io.on('connection', function(socket){
   console.log("A user has connected", io.engine.clientsCount)
 
   socket.on('message', function (channel, message) {
-    console.log(message)
-    io.sockets.emit('poll item', message);
+    if (channel === 'poll item') {
+      io.sockets.emit('poll item', message);
+    } else if(channel === 'generate poll'){
+      polls[Math.random()] = message;
+      io.sockets.emit('generate poll', polls);
+
+    }
+
   });
 
   socket.on('disconnect', function(){
     console.log("A user has disconnected.", io.engine.clientsCount)
+    delete polls[socket.id];
   });
 });
 
