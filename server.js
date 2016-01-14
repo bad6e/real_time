@@ -2,6 +2,10 @@ const http = require('http');
 const express = require('express');
 const app = express();
 const _ = require('lodash');
+const exphbs  = require('express-handlebars');
+
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 pry = require('pryjs');
 
@@ -22,7 +26,7 @@ const socketIo = require('socket.io');
 const io = socketIo(server);
 
 var polls = {};
-var activeLinks = {};
+var votes = {};
 
 app.get('/polls/:id', function(req , res){
   console.log(req.params.id)
@@ -36,8 +40,8 @@ app.get('/polls/:id', function(req , res){
     console.log('bad id');
     res.status(404).end();
   } else {
-    var data = pollData(id);
-    res.send(data);
+    var data = pollData(id).items;
+    res.render('polls', {data} );
   }
 });
 
@@ -54,7 +58,7 @@ app.get('/polls/admin/:id', function(req , res){
     res.status(404).end();
   } else {
     var data = pollData(id);
-    res.send(data);
+    res.render('admin');
   }
 });
 
@@ -73,6 +77,10 @@ io.on('connection', function(socket){
       polls[uniqueKey] = message;
       console.log(polls)
       socket.emit('generate poll', uniqueKey);
+    } else if(channel === 'voteCast') {
+      votes[socket.id] = message;
+      console.log(votes)
+      io.sockets.emit('voteCount', _.countBy(votes));
     }
   });
 
@@ -80,7 +88,8 @@ io.on('connection', function(socket){
     console.log("A user has disconnected.", io.engine.clientsCount)
     delete polls[socket.id];
   });
-
 });
+
+
 
 module.exports = server;

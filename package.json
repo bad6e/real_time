@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/bad6e/real_time#readme",
   "dependencies": {
+    "ejs": "^1.0.0",
     "express": "^4.13.3",
+    "express-handlebars": "^2.0.1",
     "lodash": "^3.10.1",
     "socket.io": "^1.4.4"
   },
