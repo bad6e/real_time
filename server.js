@@ -2,6 +2,10 @@ const http = require('http');
 const express = require('express');
 const app = express();
 const _ = require('lodash');
+const exphbs  = require('express-handlebars');
+
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 pry = require('pryjs');
 
@@ -36,9 +40,11 @@ app.get('/polls/:id', function(req , res){
     console.log('bad id');
     res.status(404).end();
   } else {
-    var data = pollData(id);
+    var data = pollData(id).items;
+
+
     // res.send(data);
-    res.render('index.html', { data: JSON.stringify(data) });
+    res.render('polls', {data} );
   }
 });
 
@@ -55,7 +61,7 @@ app.get('/polls/admin/:id', function(req , res){
     res.status(404).end();
   } else {
     var data = pollData(id);
-    res.send(data);
+    res.render(data);
   }
 });
 
