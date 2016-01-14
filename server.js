@@ -26,7 +26,7 @@ const socketIo = require('socket.io');
 const io = socketIo(server);
 
 var polls = {};
-var activeLinks = {};
+var votes = {};
 
 app.get('/polls/:id', function(req , res){
   console.log(req.params.id)
@@ -80,6 +80,10 @@ io.on('connection', function(socket){
       polls[uniqueKey] = message;
       console.log(polls)
       socket.emit('generate poll', uniqueKey);
+    } else if(channel === 'voteCast') {
+      votes[socket.id] = message;
+      console.log(votes)
+      // socket.emit('voteCount', countVotes(votes));
     }
   });
 
@@ -89,5 +93,20 @@ io.on('connection', function(socket){
   });
 
 });
+
+
+function countVotes(votes) {
+  var voteCount = {
+    A: 0,
+    B: 0,
+    C: 0,
+    D: 0
+  };
+
+  for (vote in votes) {
+    voteCount[votes[vote]]++
+  }
+  return voteCount;
+}
 
 module.exports = server;
