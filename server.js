@@ -41,9 +41,6 @@ app.get('/polls/:id', function(req , res){
     res.status(404).end();
   } else {
     var data = pollData(id).items;
-
-
-    // res.send(data);
     res.render('polls', {data} );
   }
 });
@@ -61,7 +58,7 @@ app.get('/polls/admin/:id', function(req , res){
     res.status(404).end();
   } else {
     var data = pollData(id);
-    res.render(data);
+    res.render('admin');
   }
 });
 
@@ -83,7 +80,7 @@ io.on('connection', function(socket){
     } else if(channel === 'voteCast') {
       votes[socket.id] = message;
       console.log(votes)
-      // socket.emit('voteCount', countVotes(votes));
+      io.sockets.emit('voteCount', _.countBy(votes));
     }
   });
 
@@ -91,22 +88,8 @@ io.on('connection', function(socket){
     console.log("A user has disconnected.", io.engine.clientsCount)
     delete polls[socket.id];
   });
-
 });
 
 
-function countVotes(votes) {
-  var voteCount = {
-    A: 0,
-    B: 0,
-    C: 0,
-    D: 0
-  };
-
-  for (vote in votes) {
-    voteCount[votes[vote]]++
-  }
-  return voteCount;
-}
 
 module.exports = server;
