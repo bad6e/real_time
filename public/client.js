@@ -36,7 +36,3 @@ socket.on('generate poll', function(message) {
   $('.generated-poll').append(`<li>Poll Link: localhost:3000/polls/${message}</li>
                                <li>Admin Link: localhost:3000/polls/admin/${message}`);
 });
-
-
-
-

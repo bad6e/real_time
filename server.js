@@ -37,7 +37,8 @@ app.get('/polls/:id', function(req , res){
     res.status(404).end();
   } else {
     var data = pollData(id);
-    res.send(data);
+    // res.send(data);
+    res.render('index.html', { data: JSON.stringify(data) });
   }
 });
 
