@@ -6,14 +6,7 @@ const exphbs  = require('express-handlebars');
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-
-pry = require('pryjs');
-
 app.use(express.static('public'))
-
-app.get("/", function(req, res){
-  res.sendFile(__dirname + '/public/index.html');
-});
 
 const port = process.env.PORT || 3000;
 
@@ -28,6 +21,11 @@ const io = socketIo(server);
 var polls = {};
 var votes = {};
 var votesTally = {};
+
+//Routes
+app.get("/", function(req, res){
+  res.sendFile(__dirname + '/public/index.html');
+});
 
 app.get('/polls/:id', function(req , res){
   var id = req.params.id
@@ -65,6 +63,7 @@ function pollData (id) {
   return polls[id]
 }
 
+//Socket IO
 io.on('connection', function(socket){
 
   socket.on('message', function (channel, message) {
@@ -75,9 +74,13 @@ io.on('connection', function(socket){
       polls[uniqueKey] = message;
       socket.emit('generate poll', uniqueKey);
     } else if (channel === 'voteCast') {
+      console.log(message)
       assignVotesToSpecificPoll(message);
       countVotes(votes);
       fiterVotesByMessageKey(message);
+       console.log(votes)
+      console.log(votesTally)
+
     }
   });
 
@@ -106,7 +109,7 @@ io.on('connection', function(socket){
   function fiterVotesByMessageKey(message) {
     for (var key in votesTally) {
       if (key === message.key) {
-         io.sockets.emit('voteCount', votesTally[key]);
+         io.sockets.emit('voteCount-' + key, votesTally[key]);
       }
     }
   }

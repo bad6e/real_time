@@ -2,7 +2,7 @@ var socket = io();
 var divKey = $('h1').attr('class')
 var choices = []
 
-socket.on('voteCount', function(message) {
+socket.on('voteCount-' + divKey, function(message) {
   console.log(message)
   hideNofiticiations();
   displayVotes(message)
@@ -15,7 +15,6 @@ function hideNofiticiations () {
 
 function displayVotes (message) {
   for (var key in message){
-    debugger
     $('.vote-count').append("Poll Item: "
                             + key
                             + " has "
