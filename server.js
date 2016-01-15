@@ -28,8 +28,9 @@ const io = socketIo(server);
 var polls = {};
 var votes = {};
 
+
+
 app.get('/polls/:id', function(req , res){
-  console.log(req.params.id)
   var id = req.params.id
 
   var foundId = _.find(Object.keys(polls) , function(d) {
@@ -41,12 +42,11 @@ app.get('/polls/:id', function(req , res){
     res.status(404).end();
   } else {
     var data = pollData(id).items;
-    res.render('polls', {data} );
+    res.render('polls', {data, id} );
   }
 });
 
 app.get('/polls/admin/:id', function(req , res){
-  console.log(req.params.id)
   var id = req.params.id
 
   var foundId = _.find(Object.keys(polls) , function(d) {
@@ -58,7 +58,7 @@ app.get('/polls/admin/:id', function(req , res){
     res.status(404).end();
   } else {
     var data = pollData(id);
-    res.render('admin');
+    res.render('admin', {id});
   }
 });
 
@@ -67,7 +67,6 @@ function pollData (id) {
 }
 
 io.on('connection', function(socket){
-  console.log("A user has connected", io.engine.clientsCount)
 
   socket.on('message', function (channel, message) {
     if (channel === 'poll item') {
@@ -75,19 +74,54 @@ io.on('connection', function(socket){
     } else if(channel === 'generate poll'){
       var uniqueKey = Math.random().toString(16).slice(2)
       polls[uniqueKey] = message;
-      console.log(polls)
       socket.emit('generate poll', uniqueKey);
     } else if(channel === 'voteCast') {
-      votes[socket.id] = message;
+
+      // message.id = socket.id
+      // socket.id
+      var specificUser = {};
+
+      console.log(socket.id)
+      specificUser[socket.id] = message.value;
+      // specificUser.value = message.value;
+      if (votes[message.key] === undefined){
+        votes[message.key] = [specificUser]
+      } else {
+        votes[message.key].push(specificUser);
+      }
+      // votes[message.key] = specificUser
+
+      // votes[socket.id] = message;
+      //DOES THE MESSAGE.KEY MATCH the VOTE KEY - IF YES - COUNT THE DAY AND SEND THEM UP
+
       console.log(votes)
-      io.sockets.emit('voteCount', _.countBy(votes));
+      console.log(votes[message.key])
+      // console.log(countVotes(votes[message.key]))
+      // votes[message.key]
+
+
+       io.sockets.emit('voteCount', votes);
+
+      // for (var key in votes) {
+      //   eval(pry.it)
+      //   if (key === message.key) {
+
+      //   }
+      // }
+
     }
   });
 
-  socket.on('disconnect', function(){
-    console.log("A user has disconnected.", io.engine.clientsCount)
-    delete polls[socket.id];
-  });
+  function countVotes (votes) {
+    return _.countBy(votes, function(value, key){
+      return value
+    })
+  }
+
+  // socket.on('disconnect', function(){
+  //   console.log("A user has disconnected.", io.engine.clientsCount)
+  //   delete polls[socket.id];
+  // });
 });
 
 

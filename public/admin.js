@@ -1,21 +1,44 @@
 var socket = io();
+var divKey = $('h1').attr('class')
+var choices = []
 
 socket.on('voteCount', function(message) {
-  $('.vote-count').empty();
-  hideNofiticiation();
-  displayVotes(message);
+
+  console.log(message[divKey])
+
+  // for(var key in message){
+  //   if(divKey === key){
+  //     debugger
+  //     choices.push(message[key].value)
+
+  //     hideNofiticiations();
+  //     console.log(choices)
+  //     // displayVotes(choices);
+  //   }
+  // }
+
 });
 
-function hideNofiticiation () {
+function hideNofiticiations () {
+
   $('p').hide();
 }
 
-function displayVotes (message) {
-  for (var key in message){
-    $('.vote-count').append("Poll Item: "
-                            + key
-                            + " has "
-                            + message[key]
-                            +  " vote(s).<br>");
-  }
+function displayVotes (array) {
+  // shit = []
+  // shit.push(exactObject)
+  // debugger
+  // for (var key in message){
+
+    // debugger
+    //grab the object where the divKey matches
+    //Then append all its shit
+    // $('.vote-count').append("Poll Item: "
+    //                         + exactObject.key
+    //                         + " has "
+    //                         + exactObject.value
+    //                         +  " vote(s).<br>");
+// $('.vote-count').empty();
+// $('.vote-count').html(choices);
+  // }
 }
