@@ -74,13 +74,9 @@ io.on('connection', function(socket){
       polls[uniqueKey] = message;
       socket.emit('generate poll', uniqueKey);
     } else if (channel === 'voteCast') {
-      console.log(message)
       assignVotesToSpecificPoll(message);
       countVotes(votes);
       fiterVotesByMessageKey(message);
-       console.log(votes)
-      console.log(votesTally)
-
     }
   });
 
