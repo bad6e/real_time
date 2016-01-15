@@ -27,8 +27,7 @@ const io = socketIo(server);
 
 var polls = {};
 var votes = {};
-
-
+var votesTally = {};
 
 app.get('/polls/:id', function(req , res){
   var id = req.params.id
@@ -71,58 +70,48 @@ io.on('connection', function(socket){
   socket.on('message', function (channel, message) {
     if (channel === 'poll item') {
       socket.emit('poll item', message);
-    } else if(channel === 'generate poll'){
-      var uniqueKey = Math.random().toString(16).slice(2)
+    } else if (channel === 'generate poll'){
+      var uniqueKey = generateUniqueKeyForPoll();
       polls[uniqueKey] = message;
       socket.emit('generate poll', uniqueKey);
-    } else if(channel === 'voteCast') {
-
-      // message.id = socket.id
-      // socket.id
-      var specificUser = {};
-
-      console.log(socket.id)
-      specificUser[socket.id] = message.value;
-      // specificUser.value = message.value;
-      if (votes[message.key] === undefined){
-        votes[message.key] = [specificUser]
-      } else {
-        votes[message.key].push(specificUser);
-      }
-      // votes[message.key] = specificUser
-
-      // votes[socket.id] = message;
-      //DOES THE MESSAGE.KEY MATCH the VOTE KEY - IF YES - COUNT THE DAY AND SEND THEM UP
-
-      console.log(votes)
-      console.log(votes[message.key])
-      // console.log(countVotes(votes[message.key]))
-      // votes[message.key]
-
-
-       io.sockets.emit('voteCount', votes);
-
-      // for (var key in votes) {
-      //   eval(pry.it)
-      //   if (key === message.key) {
-
-      //   }
-      // }
-
+    } else if (channel === 'voteCast') {
+      assignVotesToSpecificPoll(message);
+      countVotes(votes);
+      fiterVotesByMessageKey(message);
     }
   });
 
-  function countVotes (votes) {
-    return _.countBy(votes, function(value, key){
-      return value
-    })
+  function assignVotesToSpecificPoll (message) {
+    if (votes[message.key] === undefined){
+        var specificUsersVote = {};
+        specificUsersVote[socket.id] = message.value;
+        votes[message.key] = specificUsersVote;
+      } else {
+        votes[message.key][socket.id] = message.value;
+    }
   }
 
-  // socket.on('disconnect', function(){
-  //   console.log("A user has disconnected.", io.engine.clientsCount)
-  //   delete polls[socket.id];
-  // });
+  function generateUniqueKeyForPoll (){
+    return Math.random().toString(16).slice(2)
+  }
+
+  function countVotes (votes) {
+    for (var key in votes) {
+      votesTally[key] = _.countBy(votes[key], function(value, key){
+        return value
+      })
+    }
+  }
+
+  function fiterVotesByMessageKey(message) {
+    for (var key in votesTally) {
+      if (key === message.key) {
+         io.sockets.emit('voteCount', votesTally[key]);
+      }
+    }
+  }
 });
+
 
 
 
