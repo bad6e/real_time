@@ -29,39 +29,16 @@ app.get("/", function(req, res){
 
 app.get('/polls/:id', function(req , res){
   var id = req.params.id
-
-  var foundId = _.find(Object.keys(polls) , function(d) {
-    return d === req.params.id
-  });
-
-  if (!foundId) {
-    console.log('bad id');
-    res.status(404).end();
-  } else {
-    var data = pollData(id).items;
-    res.render('polls', {data, id} );
-  }
+  var data = polls[id].items;
+  res.render('polls', {data, id} );
 });
 
 app.get('/polls/admin/:id', function(req , res){
   var id = req.params.id
-
-  var foundId = _.find(Object.keys(polls) , function(d) {
-    return d === req.params.id
-  });
-
-  if (!foundId) {
-    console.log('bad id');
-    res.status(404).end();
-  } else {
-    var data = pollData(id);
-    res.render('admin', {id});
-  }
+  var data = polls[id];
+  res.render('admin', {id});
 });
 
-function pollData (id) {
-  return polls[id]
-}
 
 //Socket IO
 io.on('connection', function(socket){
