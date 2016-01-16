@@ -31,6 +31,6 @@ function displayVotes (message) {
 }
 
 function displayLink (pollId) {
-  $('p').html("<p> Poll Link: localhost:3000/polls/" + pollId)
+  $('p').html("<p> Poll Link: https://realtimeanytime.herokuapp.com/polls/" + pollId)
 }
 
