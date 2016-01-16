@@ -13,7 +13,7 @@ $('.submit-poll-item').on('click', function (e) {
   });
 });
 
-//Saving all Poll Items into an array
+// Saving all Poll Items into an array
 function groupedPollItems(pollItem) {
   poll['items'].push(pollItem);
 }
