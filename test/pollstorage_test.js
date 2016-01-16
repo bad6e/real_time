@@ -14,6 +14,13 @@ describe('PollStorage', function () {
     expect(this.pollStorage.polls).eql({});
   });
 
+  it('creates a poll', function (){
+    var message = { items: [ 'A' ] }
+    var key = "abc123"
+    var newPoll = this.pollStorage.createPoll(message, key)
+    expect(this.pollStorage.polls).eql({abc123: { items: [ 'A' ] } })
+  })
+
   // it('creates a poll and finds it by its admin_id', function (done) {
   //   var pollParams = { name: 'test poll',
   //     questions: {
