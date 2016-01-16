@@ -40,6 +40,7 @@ app.get('/polls/admin/:id', function(req , res){
   res.render('admin', {id});
 });
 
+
 //Socket IO
 io.on('connection', function(socket){
   socket.on('message', function (channel, message) {
@@ -55,11 +56,9 @@ io.on('connection', function(socket){
     }
   });
 
-
   function generateUniqueKeyForPoll (){
     return Math.random().toString(16).slice(2)
   }
 });
-
 
 module.exports = server;
