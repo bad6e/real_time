@@ -1,20 +1,17 @@
 var socket = io();
-var divKey = $('h1').attr('class')
-var choices = []
-var pollId = window.location.pathname.split('/').slice(-1).pop()
+var divKey = $('h1').attr('class');
+var pollId = window.location.pathname.split('/').slice(-1).pop();
 
-
-$(document).ready(function(){
-  displayLink(pollId)
+$(document).ready(function() {
+  displayLink(pollId);
 })
 
 socket.on('voteCount-' + divKey, function(message) {
-  console.log(message)
   hideNofiticiations();
-  displayVotes(message)
+  displayVotes(message);
 });
 
-function hideNofiticiations () {
+function hideNofiticiations() {
   $('h4').hide();
   $('.vote-count').empty();
 }
@@ -26,11 +23,10 @@ function displayVotes (message) {
                             + " has "
                             + message[key]
                             +  " vote(s).<br>");
-
   }
 }
 
 function displayLink (pollId) {
-  $('p').html("<p> Poll Link: https://realtimeanytime.herokuapp.com/polls/" + pollId)
+  $('p').html("<p> Poll Link: http://localhost:3000/polls/" + pollId)
 }
 
