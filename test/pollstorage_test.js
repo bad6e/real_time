@@ -8,39 +8,32 @@ describe('PollStorage', function () {
 
   beforeEach(function() {
     this.pollStorage = new PollStorage();
+    this.message = { items: [ 'A' ] }
+    this.voteMessage = { key: 'cd1917c7', value: 'A' }
+    this.socketId = 'Qdna#ds'
   });
 
   it('has a polls attribute that starts as an empty object', function () {
     expect(this.pollStorage.polls).eql({});
   });
 
-  it('creates a poll', function (){
-    var message = { items: [ 'A' ] }
+  it('creates a poll with a poll key as the key and the poll items as the value', function (){
     var key = "abc123"
-    var newPoll = this.pollStorage.createPoll(message, key)
+    var newPoll = this.pollStorage.createPoll(this.message, key)
     expect(this.pollStorage.polls).eql({abc123: { items: [ 'A' ] } })
-  })
+  });
 
-  // it('creates a poll and finds it by its admin_id', function (done) {
-  //   var pollParams = { name: 'test poll',
-  //     questions: {
-  //       question1: 'question1'
-  //     }
-  //   }
-  //   var poll = dataStore.createPoll(pollParams);
-  //   expect(dataStore.findPollByAdminId(poll.admin_id)).eql(poll);
-  //   done();
-  // });
+  it('assigns votes to a specific poll', function (){
+    var votes = {}
+    var assignedPoll = this.pollStorage.assignVotesToSpecificPoll(this.voteMessage, votes, this.socketId )
+    expect(assignedPoll).eql({ cd1917c7: { 'Qdna#ds': 'A' } })
+  });
 
-  // it('can find saved polls by the poll_id', function (done) {
-  //   var pollParams = { name: 'test poll',
-  //     questions: {
-  //       question1: 'question1'
-  //     }
-  //   }
-  //   var poll = new Poll(pollParams);
-  //   dataStore.polls[poll.admin_id] = poll;
-  //   expect(dataStore.findPollByPollId(poll.poll_id)).eql(poll);
-  //   done();
-  // });
+  it('counts the votes of a each poll', function (){
+
+  });
+
+  it('filters the votes by the message key', function (){
+
+  });
 })
