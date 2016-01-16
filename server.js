@@ -4,6 +4,11 @@ const app = express();
 const _ = require('lodash');
 const exphbs  = require('express-handlebars');
 const PollStorage = require('./lib/pollstorage')
+const bodyParser = require('body-parser');
+const key = require('./lib/key')
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -17,8 +22,9 @@ const server = http.createServer(app)
 const socketIo = require('socket.io');
 const io = socketIo(server);
 
-var pollStorage = new PollStorage;
+pry = require('pryjs')
 
+var pollStorage = new PollStorage;
 var votes = {};
 var votesTally = {};
 
@@ -39,17 +45,16 @@ app.get('/polls/admin/:id', function(req , res){
   res.render('admin', {id});
 });
 
+app.post('/', function(request, response) {
+  var uniqueKey = key.generateUniqueKeyForPoll();
+  pollStorage.createPoll(request.body, uniqueKey)
+  response.redirect('/polls/admin/' + uniqueKey);
+});
 
 //Socket IO
 io.on('connection', function(socket){
   socket.on('message', function (channel, message) {
-    if (channel === 'poll item') {
-      socket.emit('poll item', message);
-    } else if (channel === 'generate poll'){
-      var uniqueKey = generateUniqueKeyForPoll();
-      pollStorage.createPoll(message, uniqueKey)
-      socket.emit('generate poll', uniqueKey);
-    } else if (channel === 'voteCast') {
+    if (channel === 'voteCast') {
       var socketId = socket.id
       io.sockets.emit('voteCount-' + message.key,
                                      pollStorage.voteSorter(message,
@@ -57,11 +62,8 @@ io.on('connection', function(socket){
                                      votesTally,
                                      socketId))
     }
+    console.log(votes)
   });
-
-  function generateUniqueKeyForPoll (){
-    return Math.random().toString(16).slice(2)
-  }
 });
 
 module.exports = server;

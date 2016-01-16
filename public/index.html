@@ -13,11 +13,15 @@
       </div>
     </div>
 
-    <div class="container" id="join-form">
+    <div class="container">
       <div class="col-md-offset-2 col-md-8">
-        <div class="row well new-poll-items">
-          <input type="text" placeholder="Add Poll Item Here" class="poll-item">
-          <input type="submit" class="submit-poll-item">
+        <div class="row well">
+          <form role="form" action="/" method="post">
+            <input type="text" name="items" class="choice" placeholder="Add Poll Item Here">
+            <button class="additional-choice" type="button" name="button">Click Here Only if You Want to Add Another Poll Item</button>
+            <br><br>
+            <input type="submit" value="CLICK HERE TO GENERATE POLL">
+          </form>
         </div>
       </div>
     </div>
@@ -28,22 +32,6 @@
         </div>
       </div>
     </div>
-
-    <div class="container" id="join-form">
-      <div class="col-md-offset-2 col-md-8">
-        <div class="row well">
-          <button type="button" class="btn btn-success generate-poll">Generate New Poll</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="container" id="join-form">
-      <div class="col-md-offset-2 col-md-8">
-        <div class="row well generated-poll">
-        </div>
-      </div>
-    </div>
-
 
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

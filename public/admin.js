@@ -1,6 +1,12 @@
 var socket = io();
 var divKey = $('h1').attr('class')
 var choices = []
+var pollId = window.location.pathname.split('/').slice(-1).pop()
+
+
+$(document).ready(function(){
+  displayLink(pollId)
+})
 
 socket.on('voteCount-' + divKey, function(message) {
   console.log(message)
@@ -9,7 +15,7 @@ socket.on('voteCount-' + divKey, function(message) {
 });
 
 function hideNofiticiations () {
-  $('p').hide();
+  $('h4').hide();
   $('.vote-count').empty();
 }
 
@@ -23,3 +29,8 @@ function displayVotes (message) {
 
   }
 }
+
+function displayLink (pollId) {
+  $('p').html("<p> Poll Link: localhost:3000/polls/" + pollId)
+}
+
