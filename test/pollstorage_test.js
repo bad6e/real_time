@@ -2,8 +2,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 var should = chai.should();
-
-const PollStorage = require('../lib/dataStore');
+const PollStorage = require('../lib/pollstorage');
 
 describe('PollStorage', function () {
 
@@ -11,8 +10,8 @@ describe('PollStorage', function () {
     this.pollStorage = new PollStorage();
   });
 
-  it('has a polls attribute that starts as an empty object', function (done) {
-    expect(pollStorage.polls).eql({});
+  it('has a polls attribute that starts as an empty object', function () {
+    expect(this.pollStorage.polls).eql({});
   });
 
   // it('creates a poll and finds it by its admin_id', function (done) {
