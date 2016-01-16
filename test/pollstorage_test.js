@@ -30,7 +30,10 @@ describe('PollStorage', function () {
   });
 
   it('counts the votes of a each poll', function (){
-
+    var votesTally = {}
+    var votes = { cd1917c7: { 'Qdna#ds': 'A' } }
+    var countedPoll = this.pollStorage.countVotes(votes, votesTally)
+    expect(votesTally).eql({ cd1917c7: { A: 1 } })
   });
 
   it('filters the votes by the message key', function (){
