@@ -1,38 +1,16 @@
-var socket = io();
-var poll = {
-  items: []
-};
+$(document).ready(function(){
+  bindClick();
+})
 
-//Submitting Poll Items
-$('.submit-poll-item').on('click', function (e) {
-  e.preventDefault();
-  var pollItem = $('.new-poll-items .poll-item').val();
-  groupedPollItems(pollItem)
-  socket.send('poll item', {
-    item: pollItem
+function bindClick (){
+  $('.additional-choice:last').on('click', function (e) {
+  console.log("Hi")
+  addAdditionalPollItem();
   });
-});
-
-// Saving all Poll Items into an array
-function groupedPollItems(pollItem) {
-  poll['items'].push(pollItem);
 }
 
-//Append the new Poll Item to the screen
-socket.on('poll item', function(message) {
-  $('.all-poll-items').append(`Poll Item: ${message.item}<br>`);
-});
-
-
-//Requesting finish Poll #1 - goes to 'generate poll'
-$('.generate-poll').on('click', function (e) {
-  e.preventDefault();
-  socket.send('generate poll', poll)
-});
-
-
-//Append the Poll and Admin Links to the Page #2
-socket.on('generate poll', function(message) {
-  $('.generated-poll').append(`<li>Poll Link: https://realtimeanytime.herokuapp.com/polls/${message}</li>
-                               <li>Admin Link: https://realtimeanytime.herokuapp.com/admin/${message}`);
-});
+function addAdditionalPollItem() {
+  var additionalChoice = '<br><input class="choice" type="text" name="items" placeholder="Next Poll Item"><button class="additional-choice" type="button" name="button">Click Here Only if You Want to Add Another Poll Item</button>';
+  $('.additional-choice:last').append().after(additionalChoice);
+  bindClick();
+}
