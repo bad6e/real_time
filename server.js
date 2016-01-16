@@ -52,7 +52,11 @@ io.on('connection', function(socket){
       socket.emit('generate poll', uniqueKey);
     } else if (channel === 'voteCast') {
       var socketId = socket.id
-      io.sockets.emit('voteCount-' + message.key, pollStorage.voteSorter(message, votes, votesTally, socketId))
+      io.sockets.emit('voteCount-' + message.key,
+                                     pollStorage.voteSorter(message,
+                                     votes,
+                                     votesTally,
+                                     socketId))
     }
   });
 
