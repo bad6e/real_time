@@ -28,7 +28,7 @@ function displayVotes(message) {
 }
 
 function displayLink(pollId) {
-  $('p').html("<p> Poll Link: http://localhost:3000/polls/" + pollId);
+  $('p').html("<p> Poll Link: https://realtimeanytime.herokuapp.com/" + pollId);
 }
 
 function endPoll() {
