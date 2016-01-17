@@ -22,6 +22,8 @@ const server = http.createServer(app)
 const socketIo = require('socket.io');
 const io = socketIo(server);
 
+pry = require('pryjs')
+
 var pollStorage = new PollStorage;
 var votes = {};
 var votesTally = {};
@@ -68,7 +70,7 @@ io.on('connection', function(socket){
                                      votesTally,
                                      socketId));
     } else if (channel === 'endPoll-' + message) {
-      pollStorage.polls[message] = null;
+      pollStorage.endPoll(message);
     }
   });
 });
