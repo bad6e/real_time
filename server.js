@@ -21,6 +21,7 @@ const server = http.createServer(app)
                });
 const socketIo = require('socket.io');
 const io = socketIo(server);
+pry = require('pryjs')
 
 var pollStorage = new PollStorage;
 var votes = {};
@@ -33,7 +34,7 @@ app.get("/", function(req, res){
 
 app.get('/polls/:id', function(req , res){
   var id = req.params.id;
-  checkIfPollClosed(id, res);
+  pollStorage.checkIfPollClosed(id, res);
 });
 
 app.get('/polls/admin/:id', function(req , res){
@@ -47,15 +48,6 @@ app.post('/', function(request, response) {
   pollStorage.createPoll(request.body, uniqueKey);
   response.redirect('/polls/admin/' + uniqueKey);
 });
-
-function checkIfPollClosed (id, res) {
-  if (pollStorage.polls[id] === null){
-    res.render('pollclosed');
-  } else {
-    var data = pollStorage.polls[id].items;
-    res.render('polls', {data, id} );
-  }
-}
 
 //Socket IO
 io.on('connection', function(socket){
