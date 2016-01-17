@@ -4,6 +4,7 @@ var pollId = window.location.pathname.split('/').slice(-1).pop();
 
 $(document).ready(function() {
   displayLink(pollId);
+  endPoll();
 })
 
 socket.on('voteCount-' + divKey, function(message) {
@@ -16,7 +17,7 @@ function hideNofiticiations() {
   $('.vote-count').empty();
 }
 
-function displayVotes (message) {
+function displayVotes(message) {
   for (var key in message){
     $('.vote-count').append("Poll Item: "
                             + key
@@ -26,7 +27,13 @@ function displayVotes (message) {
   }
 }
 
-function displayLink (pollId) {
-  $('p').html("<p> Poll Link: http://localhost:3000/polls/" + pollId)
+function displayLink(pollId) {
+  $('p').html("<p> Poll Link: http://localhost:3000/polls/" + pollId);
+}
+
+function endPoll() {
+  $('.end-poll').on('click', function() {
+    socket.send('endPoll-' + pollId, pollId);
+  });
 }
 
