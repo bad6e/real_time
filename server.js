@@ -68,7 +68,7 @@ io.on('connection', function(socket){
                                      votesTally,
                                      socketId));
     } else if (channel === 'endPoll-' + message) {
-      pollStorage.polls[message] = null;
+      pollStorage.endPoll(message);
     }
   });
 });
