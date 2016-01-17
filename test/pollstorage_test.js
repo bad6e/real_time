@@ -60,4 +60,18 @@ describe('PollStorage', function () {
     var endedPoll = this.pollStorage.endPoll(this.voteMessage.key);
     expect(this.pollStorage.polls).eql({ cd1917c7: null });
   });
+
+  it("it obtains a polls items", function (){
+    var key = "abc123";
+    var newPoll = this.pollStorage.createPoll(this.message, key);
+    var pollItems = this.pollStorage.obtainPollItems('abc123');
+    expect(pollItems).eql([ 'A', 'B' ])
+  });
+
+  it("it obtains a polls status if status is true", function (){
+    var key = "abc123";
+    var newPoll = this.pollStorage.createPoll({ items: [ 'A', 'C' ], share: 'true' }, key);
+    var pollStatus = this.pollStorage.obtainPollStatus('abc123');
+    expect(pollStatus).eql('true')
+  });
 });

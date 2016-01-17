@@ -1,4 +1,4 @@
-<h1>Please vote for one!</h1>
+<h1 class={{status}}>Please vote for one!</h1>
 
 <div class={{id}} id='choices'>
   {{#each data}}
@@ -7,5 +7,8 @@
   <div class='thank-you'style='display: none;'><h3>Thank you for voting!</h3></div>
 </div>
 
+<div class='vote-count'></div>
+
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/poll.js"></script>

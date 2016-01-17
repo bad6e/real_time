@@ -1,9 +1,8 @@
 var socket = io();
-var divKey = $('h1').attr('class');
-var pollId = window.location.pathname.split('/').slice(-1).pop();
+var divKey = window.location.pathname.split('/').slice(-1).pop();
 
 $(document).ready(function() {
-  displayLink(pollId);
+  displayLink(divKey);
   endPoll();
 })
 
@@ -27,13 +26,13 @@ function displayVotes(message) {
   }
 }
 
-function displayLink(pollId) {
-  $('p').html("<p> Poll Link: https://realtimeanytime.herokuapp.com/polls/" + pollId);
+function displayLink(divKey) {
+  $('p').html("<p> Poll Link: http://localhost:3000/polls/" + divKey);
 }
 
 function endPoll() {
   $('.end-poll').on('click', function() {
-    socket.send('endPoll-' + pollId, pollId);
+    socket.send('endPoll-' + divKey, divKey);
   });
 }
 
