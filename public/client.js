@@ -1,10 +1,9 @@
 $(document).ready(function(){
   bindClick();
-})
+});
 
 function bindClick (){
   $('.additional-choice:last').on('click', function (e) {
-  console.log("Hi")
   addAdditionalPollItem();
   });
 }
