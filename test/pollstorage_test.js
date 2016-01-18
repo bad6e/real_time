@@ -1,7 +1,6 @@
 const PollStorage = require('../lib/pollstorage');
 const sinon = require('sinon');
 
-
 describe('PollStorage Functions', function () {
 
   beforeEach(function() {
