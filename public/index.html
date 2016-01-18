@@ -3,12 +3,14 @@
   <head>
     <title>Real Time Polling</title>
     <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Josefin+Slab:600' rel='stylesheet' type='text/css'>
+    <link href="style.css" rel="stylesheet">
   </head>
   <body>
     <div class="container" id="join-form">
       <div class="col-md-offset-2 col-md-8">
         <div class="row well">
-          <h2 align='center' id="login-join-page">Fill the Form to Generate a New Poll</h2>
+          <h2 align='center' id="login-join-page">Welcome to the Poll Generator</h2>
         </div>
       </div>
     </div>
@@ -16,22 +18,24 @@
     <div class="container">
       <div class="col-md-offset-2 col-md-8">
         <div class="row well">
+          <div class="form-group">
           <form role="form" action="/" method="post" id='poll-form'>
-            <input type="text" name="items" class="choice" placeholder="Add Poll Item Here"><br>
-            <input type="text" name="items" class="choice" placeholder="Add Poll Item Here">
-            <button class="additional-choice" type="button" name="button">Click Here Only if You Want to Add Another Poll Item</button>
+            <input type="text" name="items" class="choice form-control" placeholder="Add Poll Item Here"><br>
+            <input type="text" name="items" class="choice form-control" placeholder="Add Poll Item Here">
+            <button class="additional-choice btn btn-success" type="button" name="button">Click Here to Add Another Poll Item</button>
             <br><br>
-            <input type="time" name="endtime">Optional: Select a Time for the Poll to End<br><br>
-            <input type="checkbox" name="share" value="true">Click Here to Share Results with Pollers<br>
-            <input type="submit" value="CLICK HERE TO GENERATE POLL">
+            <input type="time" class='form-control' name="endtime">
+            <p>Optional: Pick a time for the poll to close</p>
+            <br><br>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="share" value="true">
+                Click Here to Share the Results
+              </label>
+            </div>
+            <input type="submit" class='btn btn-primary btn-md' value="CLICK HERE TO GENERATE POLL">
           </form>
         </div>
-      </div>
-    </div>
-
-    <div class="container" id="join-form">
-      <div class="col-md-offset-2 col-md-8">
-        <div class="row well all-poll-items">
         </div>
       </div>
     </div>
