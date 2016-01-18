@@ -2,6 +2,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 var should = chai.should();
+const assert = chai.assert;
 const PollStorage = require('../lib/pollstorage');
 
 describe('PollStorage', function () {
@@ -73,5 +74,10 @@ describe('PollStorage', function () {
     var newPoll = this.pollStorage.createPoll({ items: [ 'A', 'C' ], share: 'true' }, key);
     var pollStatus = this.pollStorage.obtainPollStatus('abc123');
     expect(pollStatus).eql('true')
+  });
+
+  it("get the time in the correct format as a string", function (){
+    var pollTime = this.pollStorage.getTimeInCorrectForm();
+    assert.isString(pollTime, 'must be a string');
   });
 });
