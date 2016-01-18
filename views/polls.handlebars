@@ -1,13 +1,15 @@
-<h1 class={{status}}>Please vote for one!</h1>
-
-<div class={{id}} id='choices'>
-  {{#each data}}
-    <button>{{this}}</button>
-  {{/each}}
-  <div class='thank-you'style='display: none;'><h3>Thank you for voting!</h3></div>
+<div class='container'>
+  <div class='col-md-12 row well'>
+    <h1 class={{status}}>Please vote for one!</h1>
+    <div class={{id}} id='choices'>
+      {{#each data}}
+        <button class='btn btn-info'>{{this}}</button>
+      {{/each}}
+      <div class='thank-you'style='display: none;'><h3>Thank you for voting!</h3></div>
+    </div>
+    <div class='vote-count'></div>
+  </div>
 </div>
-
-<div class='vote-count'></div>
 
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
