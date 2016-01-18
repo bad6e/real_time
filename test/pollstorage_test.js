@@ -1,7 +1,6 @@
 'use strict';
-var chai = require('chai');
-var expect = chai.expect;
-var should = chai.should();
+const chai = require('chai');
+const expect = chai.expect;
 const assert = chai.assert;
 const PollStorage = require('../lib/pollstorage');
 
