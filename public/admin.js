@@ -27,7 +27,7 @@ function displayVotes(message) {
 }
 
 function displayLink(divKey) {
-  $('p').html("<p> Poll Link: https://realtimeanytime.herokuapp.com/polls/" + divKey);
+  $('p').html("<p><a href='https://realtimeanytime.herokuapp.com/polls/" + divKey +"' target='_blank'>https://realtimeanytime.herokuapp.com/polls/" + divKey + "</a></p>");
 }
 
 function endPoll() {
@@ -35,4 +35,3 @@ function endPoll() {
     socket.send('endPoll-' + divKey, divKey);
   });
 }
-
