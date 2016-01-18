@@ -1,8 +1,5 @@
-'use strict';
-var chai = require('chai');
-var expect = chai.expect;
-var request = require('supertest');
-var server = require('../server.js');
+const request = require('supertest');
+const server = require('../server.js');
 const PollStorage = require('../lib/pollstorage');
 
 describe('server.js', function () {
