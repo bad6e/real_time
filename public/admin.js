@@ -27,7 +27,12 @@ function displayVotes(message) {
 }
 
 function displayLink(divKey) {
-  $('p').html("<p><a href='https://realtimeanytime.herokuapp.com/polls/" + divKey +"' target='_blank'>https://realtimeanytime.herokuapp.com/polls/" + divKey + "</a></p>");
+  $('p').html("<p><a class='poll-link' href='https://realtimeanytime.herokuapp.com/polls/"
+                + divKey
+                + "' target='_blank'>https://realtimeanytime.herokuapp.com/polls/"
+                + divKey
+                + "</a></p>");
+
 }
 
 function endPoll() {
