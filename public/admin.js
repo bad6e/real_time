@@ -1,6 +1,8 @@
 var socket = io();
 var divKey = window.location.pathname.split('/').slice(-1).pop();
 
+var pollLinkWithRoot = $(location).attr('origin') + "/polls/" + divKey
+
 $(document).ready(function() {
   displayLink(divKey);
   endPoll();
@@ -27,9 +29,8 @@ function displayVotes(message) {
 }
 
 function displayLink(divKey) {
-  $('p').html("<p><a class='poll-link' href='https://realtimeanytime.herokuapp.com/polls/"
-                + divKey
-                + "' target='_blank'>https://realtimeanytime.herokuapp.com/polls/"
+  $('p').html("<p><a class='poll-link' href='" + pollLinkWithRoot
+                + "'>https://realtimeanytime.herokuapp.com/polls/"
                 + divKey
                 + "</a></p>");
 
