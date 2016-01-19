@@ -38,8 +38,7 @@ app.get('/polls/:id', function(req , res){
 
 app.get('/polls/admin/:id', function(req , res){
   var id = req.params.id;
-  var data = pollStorage.pollList[id];
-  res.render('admin', {id});
+  voteSorter.checkIfVotesExistAndRender(res, id);
 });
 
 app.post('/', function(request, response) {
