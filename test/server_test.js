@@ -1,5 +1,5 @@
 const request = require('supertest');
-const server = require('../server.js');
+const server = require('../server');
 const PollStorage = require('../lib/pollstorage');
 
 describe('server.js', function () {
