@@ -2,7 +2,7 @@ const Browser = require('zombie');
 
 Browser.localhost('https://realtimeanytime.herokuapp.com/', 3000);
 
-describe('home page', function() {
+describe('User can see the information on the home page', function() {
 
   const browser = new Browser({
     site: 'http://localhost:3000'
@@ -38,7 +38,7 @@ describe('home page', function() {
   });
 });
 
-describe('generate poll', function() {
+describe('User can generate a poll and send correct information', function() {
 
   const browser = new Browser({
     site: 'http://localhost:3000'
@@ -78,6 +78,49 @@ describe('generate poll', function() {
 
   it('should have a poll link on the admin page', function () {
     browser.assert.className('a','poll-link');
+  });
+
+  after(function() {
+    browser.destroy();
+  });
+});
+
+describe('Poll link has the correct information', function() {
+
+  const browser = new Browser({
+    site: 'http://localhost:3000'
+  });
+
+  before(function() {
+   return browser.visit('/');
+  });
+
+  before(function(){
+    browser
+      .fill('items', 'ABC');
+      return browser.pressButton('CLICK HERE TO GENERATE POLL');
+  });
+
+  before(function(){
+      var key = browser.url.split('/').slice(-1).pop();
+      return browser.visit('/polls/' + key);
+      browser.assert.status(200);
+  });
+
+  it('should say please vote for one', function() {
+      browser.assert.text('h1', 'Please vote for one!');
+  });
+
+  it('should have two buttons for two different poll items', function() {
+    browser.assert.elements('button', 2);
+  });
+
+  it('should have a button that says ABC', function() {
+      browser.assert.text('button', 'ABC');
+  });
+
+  after(function() {
+    browser.destroy();
   });
 });
 
