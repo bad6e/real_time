@@ -6,6 +6,7 @@ const exphbs  = require('express-handlebars');
 const PollStorage = require('./lib/pollstorage');
 const bodyParser = require('body-parser');
 const key = require('./lib/key');
+const VoteSorter = require('./lib/votesorter');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,9 +23,10 @@ const server = http.createServer(app)
 const socketIo = require('socket.io');
 const io = socketIo(server);
 
+pry = require('pryjs');
+
 var pollStorage = new PollStorage;
-var votes = {};
-var votesTally = {};
+var voteSorter = new VoteSorter;
 
 //Routes
 app.get("/", function(req, res){
@@ -38,13 +40,13 @@ app.get('/polls/:id', function(req , res){
 
 app.get('/polls/admin/:id', function(req , res){
   var id = req.params.id;
-  var data = pollStorage.polls[id];
+  var data = pollStorage.pollList[id];
   res.render('admin', {id});
 });
 
 app.post('/', function(request, response) {
   var uniqueKey = key.generateUniqueKeyForPoll();
-  pollStorage.createPoll(request.body, uniqueKey);
+  pollStorage.addPollToList(request.body, uniqueKey);
   response.redirect('/polls/admin/' + uniqueKey);
 });
 
@@ -54,9 +56,9 @@ io.on('connection', function(socket){
     if (channel === 'voteCast') {
       var socketId = socket.id;
       io.sockets.emit('voteCount-' + message.key,
-                                     pollStorage.voteSorter(message,
-                                     votes,
-                                     votesTally,
+                                     voteSorter.sortVotesByPoll(message,
+                                     voteSorter.votes,
+                                     voteSorter.votesTally,
                                      socketId));
     } else if (channel === 'endPoll-' + message) {
       pollStorage.endPoll(message);
