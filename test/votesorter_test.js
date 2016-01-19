@@ -7,6 +7,10 @@ describe('Vote Sorting Functions', function () {
     this.voteSorter = new VoteSorter();
     this.voteMessage = { key: 'cd1917c7', value: 'A' };
     this.socketId = 'Qdna#ds';
+    this.response = {
+      render: function() {
+      }
+    }
   });
 
   it('checks if a vote has been assigned to a specific poll - if no then call the function to assign it', function () {
@@ -57,5 +61,16 @@ describe('Vote Sorting Functions', function () {
     var votesTally = { 'cd1917c7': { A: 2 }, '237cc8f': { C: 1 } };
     var filteredPoll = this.voteSorter.fiterVotesByMessageKey(this.voteMessage, votesTally);
     expect(filteredPoll).eql({ A: 2 });
+  });
+
+  it('checks if votes has been cast and renders the admin page', function() {
+    var votesTally = {};
+    var votes = { cd1917c7: { 'Qdna#ds': 'A' },
+                  rd191dc7: { 'Adna#df': 'B', 'Sdna#df': 'B' } };
+    var id = 'rd191dc7'
+    var responseSpy = sinon.spy(this.response, "render");
+    var voteChecker = this.voteSorter.checkIfVotesExistAndRender(this.response, id)
+    sinon.assert.calledOnce(responseSpy);
+    responseSpy.restore();
   });
 });
