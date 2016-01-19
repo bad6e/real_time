@@ -38,5 +38,7 @@ function displayLink(divKey) {
 function endPoll() {
   $('.end-poll').on('click', function() {
     socket.send('endPoll-' + divKey, divKey);
+    $('.end-poll').hide();
+    $('h2').show();
   });
 }
